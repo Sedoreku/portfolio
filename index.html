@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Portfolio</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #2c3e50;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100%;
+    }
+    
+    html, body {
+      height: 100%;
+    }
+    
+    .portfolio-container {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .page {
+      display: none;
+      flex: 1;
+      padding: 40px 20px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .page.active {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      flex: 1;
+    }
+    
+    /* Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #667eea;
+    }
+    
+    .page-title {
+      font-size: 42px;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    .page-subtitle {
+      font-size: 18px;
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    
+    /* Page 1 - Who You Are */
+    .intro-section {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+      margin-bottom: 40px;
+      align-items: center;
+    }
+    
+    .profile-photo {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%; /* This makes the container round */
+    background: linear-gradient(135deg, #667eea, #764ba2); /* Shows a background while image loads */
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* This is the magic: it clips the image's corners */
+}
+
+/* This new rule targets the image *inside* the profile-photo div */
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This scales the image to fill the circle without stretching it */
+}
+    
+    .basic-info h2 {
+      color: #2c3e50;
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+    
+    .info-item {
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .info-label {
+      font-weight: bold;
+      color: #34495e;
+      display: inline-block;
+      width: 120px;
+    }
+    
+    .biography-section {
+      margin-top: 30px;
+    }
+    
+    .biography-card {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-top: 4px solid #667eea;
+    }
+    
+    .biography-card h3 {
+      color: #2c3e50;
+      font-size: 24px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .biography-card p {
+      color: #5a6c7d;
+      line-height: 1.8;
+      font-size: 16px;
+      text-align: justify;
+    }
+    
+    /* Page 2 - Educational Journey */
+    .education-timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+    
+    .education-timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, #667eea, #764ba2);
+    }
+    
+    .education-item {
+      position: relative;
+      margin-bottom: 40px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      margin-left: 20px;
+    }
+    
+    .education-item::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: 25px;
+      width: 15px;
+      height: 15px;
+      background: #667eea;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 3px #667eea;
+    }
+    
+    .education-level {
+      font-size: 24px;
+      color: #2c3e50;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .school-name {
+      font-size: 18px;
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .school-years {
+      color: #7f8c8d;
+      font-style: italic;
+      margin-bottom: 15px;
+    }
+    
+    .memories {
+      background: rgba(102, 126, 234, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      margin-top: 15px;
+    }
+    
+    .memories h4 {
+      color: #34495e;
+      margin-bottom: 8px;
+    }
+    
+    /* Page 3 - Achievements */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+    }
+    
+    .achievement-category {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-top: 5px solid #667eea;
+      transition: transform 0.3s ease;
+    }
+    
+    .achievement-category:hover {
+      transform: translateY(-5px);
+    }
+    
+    .achievement-category h3 {
+      color: #2c3e50;
+      font-size: 22px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .achievement-list {
+      list-style: none;
+    }
+    
+    .achievement-list li {
+      background: rgba(102, 126, 234, 0.1);
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      position: relative;
+    }
+    
+    .achievement-list li::before {
+      content: '🏆';
+      margin-right: 10px;
+    }
+    
+    /* Navigation */
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid rgba(102, 126, 234, 0.2);
+    }
+    
+    .nav-button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .nav-button:disabled {
+      background: #bdc3c7;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .page-indicator {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .page-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #bdc3c7;
+      transition: all 0.3s ease;
+    }
+    
+    .page-dot.active {
+      background: #667eea;
+      transform: scale(1.2);
+    }
+    
+    .page-info {
+      color: #7f8c8d;
+      font-weight: 600;
+      margin: 0 15px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .intro-section {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .profile-photo {
+        width: 200px;
+        height: 200px;
+        font-size: 60px;
+      }
+      
+      .biography-card {
+        padding: 20px;
+      }
+      
+      .achievements-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      .page-title {
+        font-size: 32px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="portfolio-container"><!-- Page 1: Who You Are -->
+   <div class="page active" id="page1">
+    <div class="container">
+     <div class="page-header">
+      <h1 class="page-title">My Portfolio</h1>
+      <p class="page-subtitle">CC1</p>
+     </div>
+     <div class="intro-section">
+      <div class="profile-photo">
+       <img src="photo.jpg" alt="A photo of John Zedrick">
+      </div>
+      <div class="basic-info">
+       <h2 id="full-name">John Zedrick B. Pomilban</h2>
+       <div class="info-item"><span class="info-label">Born:</span> <span id="birth-date">May 26, 2007</span>
+       </div>
+       <div class="info-item"><span class="info-label">Birthplace:</span> <span id="birth-place">Baguio City, Philippines</span>
+       </div>
+      </div>
+     </div>
+     <div class="biography-section">
+      <div class="biography-card">
+       <h3>📖 My Biography</h3>
+       <p id="biography">I am John Zedrick B. Pomilban, born in Baguio City and currently living in Apugan, Irisan. An IT student who wants to learn programming and networking. I graduated from Baguio City National Science High School.</p>
+      </div>
+     </div>
+     <div class="navigation"><button class="nav-button" onclick="previousPage()" disabled>← Previous</button>
+      <div class="page-indicator">
+       <div class="page-dot active"></div>
+       <div class="page-dot"></div>
+       <div class="page-dot"></div><span class="page-info">Page 1 of 3</span>
+      </div><button class="nav-button" onclick="nextPage()">Next →</button>
+     </div>
+    </div>
+   </div><!-- Page 2: Educational Journey -->
+   <div class="page" id="page2">
+    <div class="container">
+     <div class="page-header">
+      <h1 class="page-title">Educational Journey</h1>
+      <p class="page-subtitle">My Learning Path &amp; Milestones</p>
+     </div>
+     <div class="education-timeline">
+      <div class="education-item">
+       <div class="education-level">
+        🎒 Elementary Education
+       </div>
+       <div class="school-name" id="elementary-school">
+        Sampaguita Elementary School
+       </div>
+       <div class="school-years" id="elementary-years">
+        2011 - 2017
+       </div>
+       <div class="memories">
+        <h4>📝 Memorable Moments</h4>
+        <p id="elementary-memories">During my elementary years, I discovered my love for mathematics and science. I was consistently on the honor roll and participated in various quiz bees. I fondly remember my first science fair project about solar energy, which sparked my interest in technology and innovation.</p>
+       </div>
+      </div>
+      <div class="education-item">
+       <div class="education-level">
+        📚 Junior High School
+       </div>
+       <div class="school-name" id="junior-high-school">
+        Rosa Parks Junior High School
+       </div>
+       <div class="school-years" id="junior-high-years">
+        2017 - 2021
+       </div>
+       <div class="memories">
+        <h4>🌟 Growth &amp; Development</h4>
+        <p id="junior-high-memories">Junior high was a period of tremendous growth. I joined the student council, participated in debate competitions, and discovered my passion for computer programming. These years taught me leadership skills and the importance of teamwork in achieving common goals.</p>
+       </div>
+      </div>
+      <div class="education-item">
+       <div class="education-level">
+        🎓 Senior High School
+       </div>
+       <div class="school-name" id="senior-high-school">
+        Future Leaders Senior High School
+       </div>
+       <div class="school-years" id="senior-high-years">
+        2021 - 2023
+       </div>
+       <div class="school-years"><strong>Track/Strand:</strong> <span id="senior-high-track">Science, Technology, Engineering &amp; Mathematics (STEM)</span>
+       </div>
+       <div class="memories">
+        <h4>🚀 Preparing for the Future</h4>
+        <p>Senior high school in the STEM track prepared me for my future career in technology. I excelled in advanced mathematics, physics, and computer science. I led several research projects and represented our school in regional science competitions, further solidifying my passion for innovation and problem-solving.</p>
+       </div>
+      </div>
+     </div>
+     <div class="navigation"><button class="nav-button" onclick="previousPage()">← Previous</button>
+      <div class="page-indicator">
+       <div class="page-dot"></div>
+       <div class="page-dot active"></div>
+       <div class="page-dot"></div><span class="page-info">Page 2 of 3</span>
+      </div><button class="nav-button" onclick="nextPage()">Next →</button>
+     </div>
+    </div>
+   </div><!-- Page 3: Achievements -->
+   <div class="page" id="page3">
+    <div class="container">
+     <div class="page-header">
+      <h1 class="page-title">Achievements</h1>
+      <p class="page-subtitle">Awards, Recognition &amp; Accomplishments</p>
+     </div>
+     <div class="achievements-grid">
+      <div class="achievement-category">
+       <h3>📖 Academic Excellence</h3>
+       <ul class="achievement-list">
+        <li id="academic-award-1">Consistent Honor Roll Student (2011-2023)</li>
+        <li id="academic-award-2">Mathematics Olympiad Regional Champion (2019)</li>
+        <li id="academic-award-3">Science Fair Grand Prize Winner (2020)</li>
+        <li id="academic-award-4">Valedictorian, Senior High School (2023)</li>
+       </ul>
+      </div>
+      <div class="achievement-category">
+       <h3>👑 Leadership Roles</h3>
+       <ul class="achievement-list">
+        <li id="leadership-role-1">Student Council President (2020-2021)</li>
+        <li id="leadership-role-2">STEM Club Founder &amp; President (2021-2023)</li>
+        <li id="leadership-role-3">Peer Tutoring Program Coordinator (2022)</li>
+        <li id="leadership-role-4">Youth Environmental Ambassador (2022-2023)</li>
+       </ul>
+      </div>
+      <div class="achievement-category">
+       <h3>🌟 Personal Growth</h3>
+       <ul class="achievement-list">
+        <li id="personal-achievement-1">Completed 100+ hours of community service</li>
+        <li id="personal-achievement-2">Learned 3 programming languages independently</li>
+        <li id="personal-achievement-3">Organized charity drive raising ₱50,000</li>
+        <li id="personal-achievement-4">Mentored 20+ junior students in STEM subjects</li>
+       </ul>
+      </div>
+      <div class="achievement-category">
+       <h3>🏅 Special Recognition</h3>
+       <ul class="achievement-list">
+        <li id="special-recognition-1">Outstanding Young Leader Award (2022)</li>
+        <li id="special-recognition-2">Regional Debate Competition Finalist (2021)</li>
+        <li id="special-recognition-3">Technology Innovation Contest Winner (2023)</li>
+        <li id="special-recognition-4">Community Service Excellence Award (2023)</li>
+       </ul>
+      </div>
+     </div>
+     <div class="navigation"><button class="nav-button" onclick="previousPage()">← Previous</button>
+      <div class="page-indicator">
+       <div class="page-dot"></div>
+       <div class="page-dot"></div>
+       <div class="page-dot active"></div><span class="page-info">Page 3 of 3</span>
+      </div><button class="nav-button" onclick="nextPage()" disabled>Next →</button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    let currentPage = 1;
+    const totalPages = 3;
+
+    const defaultConfig = {
+      background_color: '#667eea',
+      surface_color: '#ffffff',
+      text_color: '#2c3e50',
+      primary_action_color: '#667eea',
+      secondary_action_color: '#764ba2',
+      font_family: 'Georgia',
+      font_size: 16,
+      full_name: 'Maria Santos',
+      birth_date: 'March 15, 2005',
+      birth_place: 'Manila, Philippines',
+      biography: 'Born into a loving family of five, I am the eldest of three children. My parents, both educators, instilled in me the value of learning and perseverance from an early age. Growing up in a household that valued education and hard work shaped my character and ambitions significantly.\n\nI am naturally curious, determined, and empathetic by nature. I enjoy solving problems and helping others achieve their goals, which has led me to take on various leadership roles throughout my academic journey. My friends often describe me as reliable and optimistic, someone who can find the silver lining in any situation. I believe strongly in continuous learning and personal growth.\n\nIn my free time, I love reading books, especially science fiction and biographies that inspire me to dream bigger. I enjoy coding personal projects that challenge my technical skills, playing the guitar to express my creative side, and volunteering in community programs to give back to society. I\'m also passionate about photography and capturing moments that tell meaningful stories, as I believe every picture has the power to inspire and connect people.',
+      elementary_school: 'Sampaguita Elementary School',
+      elementary_years: '2011 - 2017',
+      elementary_memories: 'During my elementary years, I discovered my love for mathematics and science. I was consistently on the honor roll and participated in various quiz bees. I fondly remember my first science fair project about solar energy, which sparked my interest in technology and innovation.',
+      junior_high_school: 'Rosa Parks Junior High School',
+      junior_high_years: '2017 - 2021',
+      junior_high_memories: 'Junior high was a period of tremendous growth. I joined the student council, participated in debate competitions, and discovered my passion for computer programming. These years taught me leadership skills and the importance of teamwork in achieving common goals.',
+      senior_high_school: 'Future Leaders Senior High School',
+      senior_high_years: '2021 - 2023',
+      senior_high_track: 'Science, Technology, Engineering & Mathematics (STEM)',
+      academic_awards: 'Consistent Honor Roll Student (2011-2023), Mathematics Olympiad Regional Champion (2019), Science Fair Grand Prize Winner (2020), Valedictorian Senior High School (2023)',
+      leadership_roles: 'Student Council President (2020-2021), STEM Club Founder & President (2021-2023), Peer Tutoring Program Coordinator (2022), Youth Environmental Ambassador (2022-2023)',
+      personal_achievements: 'Completed 100+ hours of community service, Learned 3 programming languages independently, Organized charity drive raising ₱50,000, Mentored 20+ junior students in STEM subjects',
+      special_recognitions: 'Outstanding Young Leader Award (2022), Regional Debate Competition Finalist (2021), Technology Innovation Contest Winner (2023), Community Service Excellence Award (2023)'
+    };
+
+    function showPage(pageNumber) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Show current page
+      document.getElementById(`page${pageNumber}`).classList.add('active');
+      
+      // Update page indicators
+      document.querySelectorAll('.page-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index + 1 === pageNumber);
+      });
+      
+      // Update page info
+      document.querySelectorAll('.page-info').forEach(info => {
+        info.textContent = `Page ${pageNumber} of ${totalPages}`;
+      });
+      
+      // Update navigation buttons
+      const prevButtons = document.querySelectorAll('.nav-button:first-child');
+      const nextButtons = document.querySelectorAll('.nav-button:last-child');
+      
+      prevButtons.forEach(btn => {
+        btn.disabled = pageNumber === 1;
+      });
+      
+      nextButtons.forEach(btn => {
+        btn.disabled = pageNumber === totalPages;
+      });
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    }
+
+    function previousPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+
+    async function onConfigChange(config) {
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'serif';
+
+      // Apply colors
+      document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${secondaryActionColor} 100%)`;
+      document.body.style.color = textColor;
+      
+      const containers = document.querySelectorAll('.container');
+      containers.forEach(container => {
+        container.style.background = `rgba(255, 255, 255, 0.95)`;
+      });
+      
+      const pageTitles = document.querySelectorAll('.page-title');
+      pageTitles.forEach(title => {
+        title.style.color = textColor;
+      });
+      
+      const pageHeaders = document.querySelectorAll('.page-header');
+      pageHeaders.forEach(header => {
+        header.style.borderBottomColor = primaryActionColor;
+      });
+      
+      const navButtons = document.querySelectorAll('.nav-button:not(:disabled)');
+      navButtons.forEach(btn => {
+        btn.style.background = `linear-gradient(135deg, ${primaryActionColor}, ${secondaryActionColor})`;
+      });
+      
+      const activeDots = document.querySelectorAll('.page-dot.active');
+      activeDots.forEach(dot => {
+        dot.style.background = primaryActionColor;
+      });
+      
+      const infoItems = document.querySelectorAll('.info-item');
+      infoItems.forEach(item => {
+        item.style.background = `rgba(102, 126, 234, 0.1)`;
+        item.style.borderLeftColor = primaryActionColor;
+      });
+      
+      const biographyCard = document.querySelector('.biography-card');
+      if (biographyCard) {
+        biographyCard.style.borderTopColor = primaryActionColor;
+      }
+      
+      const timelineBefore = document.querySelector('.education-timeline');
+      if (timelineBefore) {
+        timelineBefore.style.setProperty('--timeline-color', `linear-gradient(to bottom, ${primaryActionColor}, ${secondaryActionColor})`);
+      }
+      
+      const educationItems = document.querySelectorAll('.education-item::before');
+      const style = document.createElement('style');
+      style.textContent = `
+        .education-item::before {
+          background: ${primaryActionColor} !important;
+          box-shadow: 0 0 0 3px ${primaryActionColor} !important;
+        }
+        .education-timeline::before {
+          background: linear-gradient(to bottom, ${primaryActionColor}, ${secondaryActionColor}) !important;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      const achievementCategories = document.querySelectorAll('.achievement-category');
+      achievementCategories.forEach(category => {
+        category.style.borderTopColor = primaryActionColor;
+      });
+
+      // Apply fonts
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      
+      // Apply font sizes
+      document.querySelectorAll('.page-title').forEach(el => el.style.fontSize = `${baseSize * 2.625}px`);
+      document.querySelectorAll('.page-subtitle').forEach(el => el.style.fontSize = `${baseSize * 1.125}px`);
+      document.querySelectorAll('.basic-info h2').forEach(el => el.style.fontSize = `${baseSize * 1.75}px`);
+      document.querySelectorAll('.biography-card h3').forEach(el => el.style.fontSize = `${baseSize * 1.5}px`);
+      document.querySelectorAll('.education-level').forEach(el => el.style.fontSize = `${baseSize * 1.5}px`);
+      document.querySelectorAll('.school-name').forEach(el => el.style.fontSize = `${baseSize * 1.125}px`);
+      document.querySelectorAll('.achievement-category h3').forEach(el => el.style.fontSize = `${baseSize * 1.375}px`);
+      document.querySelectorAll('.nav-button').forEach(el => el.style.fontSize = `${baseSize}px`);
+
+      // Update text content
+      document.getElementById('full-name').textContent = config.full_name || defaultConfig.full_name;
+      document.getElementById('birth-date').textContent = config.birth_date || defaultConfig.birth_date;
+      document.getElementById('birth-place').textContent = config.birth_place || defaultConfig.birth_place;
+      document.getElementById('biography').textContent = config.biography || defaultConfig.biography;
+      document.getElementById('elementary-school').textContent = config.elementary_school || defaultConfig.elementary_school;
+      document.getElementById('elementary-years').textContent = config.elementary_years || defaultConfig.elementary_years;
+      document.getElementById('elementary-memories').textContent = config.elementary_memories || defaultConfig.elementary_memories;
+      document.getElementById('junior-high-school').textContent = config.junior_high_school || defaultConfig.junior_high_school;
+      document.getElementById('junior-high-years').textContent = config.junior_high_years || defaultConfig.junior_high_years;
+      document.getElementById('junior-high-memories').textContent = config.junior_high_memories || defaultConfig.junior_high_memories;
+      document.getElementById('senior-high-school').textContent = config.senior_high_school || defaultConfig.senior_high_school;
+      document.getElementById('senior-high-years').textContent = config.senior_high_years || defaultConfig.senior_high_years;
+      document.getElementById('senior-high-track').textContent = config.senior_high_track || defaultConfig.senior_high_track;
+      
+      // Update achievement lists
+      const academicAwards = (config.academic_awards || defaultConfig.academic_awards).split(', ');
+      const leadershipRoles = (config.leadership_roles || defaultConfig.leadership_roles).split(', ');
+      const personalAchievements = (config.personal_achievements || defaultConfig.personal_achievements).split(', ');
+      const specialRecognitions = (config.special_recognitions || defaultConfig.special_recognitions).split(', ');
+      
+      const academicList = document.querySelector('.achievement-category:nth-child(1) .achievement-list');
+      academicList.innerHTML = academicAwards.map(award => `<li>${award}</li>`).join('');
+      
+      const leadershipList = document.querySelector('.achievement-category:nth-child(2) .achievement-list');
+      leadershipList.innerHTML = leadershipRoles.map(role => `<li>${role}</li>`).join('');
+      
+      const personalList = document.querySelector('.achievement-category:nth-child(3) .achievement-list');
+      personalList.innerHTML = personalAchievements.map(achievement => `<li>${achievement}</li>`).join('');
+      
+      const recognitionList = document.querySelector('.achievement-category:nth-child(4) .achievement-list');
+      recognitionList.innerHTML = specialRecognitions.map(recognition => `<li>${recognition}</li>`).join('');
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['full_name', config.full_name || defaultConfig.full_name],
+        ['birth_date', config.birth_date || defaultConfig.birth_date],
+        ['birth_place', config.birth_place || defaultConfig.birth_place],
+        ['biography', config.biography || defaultConfig.biography],
+        ['elementary_school', config.elementary_school || defaultConfig.elementary_school],
+        ['elementary_years', config.elementary_years || defaultConfig.elementary_years],
+        ['elementary_memories', config.elementary_memories || defaultConfig.elementary_memories],
+        ['junior_high_school', config.junior_high_school || defaultConfig.junior_high_school],
+        ['junior_high_years', config.junior_high_years || defaultConfig.junior_high_years],
+        ['junior_high_memories', config.junior_high_memories || defaultConfig.junior_high_memories],
+        ['senior_high_school', config.senior_high_school || defaultConfig.senior_high_school],
+        ['senior_high_years', config.senior_high_years || defaultConfig.senior_high_years],
+        ['senior_high_track', config.senior_high_track || defaultConfig.senior_high_track],
+        ['academic_awards', config.academic_awards || defaultConfig.academic_awards],
+        ['leadership_roles', config.leadership_roles || defaultConfig.leadership_roles],
+        ['personal_achievements', config.personal_achievements || defaultConfig.personal_achievements],
+        ['special_recognitions', config.special_recognitions || defaultConfig.special_recognitions]
+      ]);
+    }
+
+    // Initialize the page
+    showPage(1);
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99a23a2330d35f8d',t:'MTc2MjQwNzMyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
